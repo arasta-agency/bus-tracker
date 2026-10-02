@@ -1,0 +1,212 @@
+export type TripShift = 'morning_pickup' | 'afternoon_dropoff';
+
+export type UserRole = 'driver' | 'parent' | 'manager';
+
+export interface AuthUser {
+  id: string;
+  name: string;
+  role: UserRole;
+  emailOrPhone: string;
+  avatarBg?: string;
+  busId?: string;
+  busNumber?: string;
+  studentId?: string;
+  studentIds?: string[];
+  studentName?: string;
+  schoolName?: string;
+  title?: string;
+}
+
+export type StudentStatus =
+  | 'home_waiting'
+  | 'proximity_alert_sent'
+  | 'bus_arrived'
+  | 'boarded'
+  | 'at_school'
+  | 'absent'
+  | 'returning_home'
+  | 'dropped_off';
+
+export interface Student {
+  id: string;
+  name: string;
+  grade: string;
+  avatarBg: string;
+  parentName: string;
+  parentPhone: string;
+  parentEmail: string;
+  permanentAddress: string;
+  permanentLat: number;
+  permanentLng: number;
+  address: string; // active pickup/dropoff address
+  lat: number;
+  lng: number;
+  isTemporaryAddress?: boolean;
+  addressChangeReason?: string;
+  addressUpdatedAt?: string;
+  busId: string;
+  schoolId: string;
+  pickupSequence: number; // optimized order
+  dropoffSequence: number;
+  originalSequence: number; // naive unoptimized order
+  status: StudentStatus;
+  boardedTime?: string;
+  dropoffTime?: string;
+  etaMinutes: number;
+  distanceKm: number;
+  notes?: string;
+  proximityAlertTriggered: boolean;
+}
+
+export interface School {
+  id: string;
+  name: string;
+  address: string;
+  lat: number;
+  lng: number;
+  morningBell: string;
+  afternoonDismissal: string;
+  principalName: string;
+  phone: string;
+}
+
+export interface Bus {
+  id: string;
+  busNumber: string;
+  plate: string;
+  driverName: string;
+  driverPhone: string;
+  driverPhoto: string;
+  capacity: number;
+  fuelTankLiters: number;
+  avgLitersPer100Km: number;
+  currentLat: number;
+  currentLng: number;
+  heading: number; // degrees
+  speedKmh: number;
+  status: 'idle' | 'en_route' | 'at_school' | 'delayed' | 'emergency';
+  isOnDuty: boolean; // Driver phone active duty toggle
+  dutyStartedAt?: string;
+  phoneGpsActive?: boolean;
+  assignedSchoolId: string;
+  currentStopIndex: number;
+  isSimulating: boolean;
+  simulationSpeed: number; // 1x, 2x, 5x, 10x
+  delayMinutes: number;
+  delayReason?: string;
+  emergencyActive: boolean;
+  emergencyMessage?: string;
+  model?: string;
+  year?: number;
+  lastServiceDate?: string;
+  maintenanceStatus?: 'excellent' | 'good' | 'service_due';
+}
+
+export interface BusTripLog {
+  id: string;
+  date: string;
+  shift: TripShift;
+  busId: string;
+  busNumber: string;
+  driverName: string;
+  departureTime: string;
+  arrivalTime: string;
+  totalDurationMin: number;
+  totalDistanceKm: number;
+  averageSpeedKmh: number;
+  totalStudentsAssigned: number;
+  studentsPickedUp: number;
+  absentCount: number;
+  completionRatePercent: number;
+  dieselSavedLiters: number;
+  onTimeStatus: 'on_time' | 'minor_delay' | 'delayed';
+  notes?: string;
+}
+
+export interface StopWaypoint {
+  id: string;
+  type: 'school_origin' | 'student_stop' | 'school_destination';
+  studentId?: string;
+  studentName?: string;
+  address: string;
+  lat: number;
+  lng: number;
+  estimatedArrival: string;
+  distanceFromPrevKm: number;
+  timeFromPrevMin: number;
+  status: 'completed' | 'current' | 'pending' | 'skipped';
+  is1MinProximity: boolean;
+}
+
+export interface OptimizationMetrics {
+  originalDistanceKm: number;
+  optimizedDistanceKm: number;
+  distanceSavedKm: number;
+  percentDistanceSaved: number;
+
+  originalTimeMin: number;
+  optimizedTimeMin: number;
+  timeSavedMin: number;
+
+  fuelSavedLiters: number;
+  fuelCostSavedUsd: number;
+  co2SavedKg: number;
+}
+
+export interface AppNotification {
+  id: string;
+  timestamp: string;
+  type: 'proximity_1min' | 'delay' | 'emergency' | 'boarded' | 'school_arrival' | 'dropoff' | 'info';
+  title: string;
+  message: string;
+  studentId?: string;
+  studentName?: string;
+  busId?: string;
+  busNumber?: string;
+  urgent?: boolean;
+  read: boolean;
+}
+
+export type MessageType = 'inquiry' | 'reply' | 'broadcast';
+export type BroadcastTargetType = 'all_parents' | 'bus_group' | 'grade_group';
+export type BroadcastUrgency = 'critical' | 'important' | 'general';
+
+export interface ChatMessage {
+  id: string;
+  senderId: string;
+  senderName: string;
+  senderRole: 'parent' | 'manager';
+  parentEmail?: string;
+  parentPhone?: string;
+  studentId?: string;
+  studentName?: string;
+  busId?: string;
+  busNumber?: string;
+  content: string;
+  timestamp: string;
+  createdAt: number;
+  read: boolean;
+  type: MessageType;
+  // If it's a broadcast:
+  broadcastTarget?: BroadcastTargetType;
+  targetBusId?: string;
+  targetBusNumber?: string;
+  targetGrade?: string;
+  urgency?: BroadcastUrgency;
+  title?: string;
+}
+
+export interface CriticalBroadcast {
+  id: string;
+  title: string;
+  content: string;
+  senderName: string;
+  targetType: BroadcastTargetType;
+  targetBusId?: string;
+  targetBusNumber?: string;
+  targetGrade?: string;
+  urgency: BroadcastUrgency;
+  timestamp: string;
+  createdAt: number;
+  acknowledgedBy?: string[];
+}
