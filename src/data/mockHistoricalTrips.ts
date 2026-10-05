@@ -79,7 +79,7 @@ export const MOCK_HISTORICAL_TRIPS: BusTripLog[] = [
     completionRatePercent: 100,
     dieselSavedLiters: 3.9,
     onTimeStatus: 'minor_delay',
-    notes: 'قەرەباڵغی شەقامی مام جەلال نزیک پردەکە، گەیشتن پێش زەنگی بەیانی بە سەرکەوتوویی.',
+    notes: 'قەرەباڵغی شەقامی سەرەکی ڕانیە نزیک پردەکە، گەیشتن پێش زەنگی بەیانی بە سەرکەوتوویی.',
   },
   {
     id: 'trip_2026_09_18_pm',

@@ -3,7 +3,7 @@ import { Bus, School, Student } from '../types';
 export const INITIAL_SCHOOL: School = {
   id: 'school_horizon',
   name: 'کۆمەڵگەی پەروەردەیی ئاسۆ - ڕانیە',
-  address: 'ڕانیە، شەقامی مام جەلال، نزیک زانکۆی ڕاپەڕین',
+  address: 'ڕانیە، گەڕەکی نەورۆز، نزیک باخچەی گشتی',
   lat: 36.2512,
   lng: 44.8854,
   morningBell: '08:15 AM',
