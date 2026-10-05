@@ -28,6 +28,7 @@ import { EmergencyModal } from './components/EmergencyModal';
 import { NotificationDrawer } from './components/NotificationDrawer';
 import { LoginPage } from './components/LoginPage';
 import { ParentInquiryChatModal } from './components/ParentInquiryChatModal';
+import { SystemReportModal } from './components/SystemReportModal';
 import { realtimeMessenger } from './services/realtimeMessagingService';
 import { AuthUser, ChatMessage, CriticalBroadcast } from './types';
 
@@ -40,6 +41,7 @@ export default function App() {
   const [activeRole, setActiveRole] = useState<'driver' | 'parent' | 'manager'>('driver');
   const [shift, setShift] = useState<TripShift>('morning_pickup');
   const [soundEnabled, setSoundEnabled] = useState(true);
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
 
   // Entities
   const [school] = useState<School>(INITIAL_SCHOOL);
@@ -1103,6 +1105,7 @@ export default function App() {
         currentUser={currentUser}
         onSignOut={handleSignOut}
         onOpenLogin={() => setIsLoggedIn(false)}
+        onOpenReport={() => setIsReportModalOpen(true)}
         activeRole={activeRole}
         onRoleChange={handleRoleChange}
         shift={shift}
@@ -1249,6 +1252,11 @@ export default function App() {
         onMarkAllRead={() => {
           setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
         }}
+      />
+
+      <SystemReportModal
+        isOpen={isReportModalOpen}
+        onClose={() => setIsReportModalOpen(false)}
       />
     </div>
   );

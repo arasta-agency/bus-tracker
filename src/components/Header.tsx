@@ -13,6 +13,7 @@ import {
   LogIn,
   HelpCircle,
   MessageSquare,
+  FileText,
 } from 'lucide-react';
 import { AuthUser, TripShift } from '../types';
 import { soundPlayer } from '../utils/audioAlert';
@@ -22,6 +23,7 @@ interface HeaderProps {
   onSignOut?: () => void;
   onOpenLogin?: () => void;
   onOpenHowToUse?: () => void;
+  onOpenReport?: () => void;
   activeRole: 'driver' | 'parent' | 'manager';
   onRoleChange: (role: 'driver' | 'parent' | 'manager') => void;
   shift: TripShift;
@@ -42,6 +44,7 @@ export const Header: React.FC<HeaderProps> = ({
   onSignOut,
   onOpenLogin,
   onOpenHowToUse,
+  onOpenReport,
   activeRole,
   onRoleChange,
   shift,
@@ -237,6 +240,19 @@ export const Header: React.FC<HeaderProps> = ({
               <VolumeX className="w-4 h-4 text-slate-400" />
             )}
           </button>
+
+          {/* System Report button */}
+          {onOpenReport && (
+            <button
+              id="header-report-btn"
+              onClick={onOpenReport}
+              title="ڕاپۆرتی گشتگیری سیستەم"
+              className="px-2.5 py-1 bg-amber-100 hover:bg-amber-200 text-amber-900 rounded-xl text-xs font-bold transition flex items-center gap-1 cursor-pointer"
+            >
+              <FileText className="w-3.5 h-3.5 text-amber-700" />
+              <span className="hidden sm:inline">ڕاپۆرت</span>
+            </button>
+          )}
 
           {/* Help button */}
           {onOpenHowToUse && (
