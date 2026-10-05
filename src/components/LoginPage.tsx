@@ -9,6 +9,7 @@ import {
   EyeOff,
   AlertCircle,
   HelpCircle,
+  FileText,
 } from 'lucide-react';
 import { AuthUser, Bus, School, Student, TripShift, UserRole } from '../types';
 import { HowToUseModal } from './HowToUseModal';
@@ -20,6 +21,7 @@ interface LoginPageProps {
   currentShift: TripShift;
   onLogin: (user: AuthUser, selectedShift?: TripShift) => void;
   onContinueAsGuest?: () => void;
+  onOpenReport?: () => void;
 }
 
 export const LoginPage: React.FC<LoginPageProps> = ({
@@ -29,6 +31,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
   currentShift,
   onLogin,
   onContinueAsGuest,
+  onOpenReport,
 }) => {
   const [selectedRole, setSelectedRole] = useState<UserRole>('driver');
   const [showPassword, setShowPassword] = useState(false);
@@ -179,6 +182,17 @@ export const LoginPage: React.FC<LoginPageProps> = ({
         </div>
 
         <div className="flex items-center gap-2">
+          {onOpenReport && (
+            <button
+              id="login-report-btn"
+              onClick={onOpenReport}
+              className="text-xs text-amber-900 bg-amber-100 hover:bg-amber-200 border border-amber-300 px-3 py-1.5 rounded-xl transition flex items-center gap-1 font-bold cursor-pointer"
+            >
+              <FileText className="w-3.5 h-3.5 text-amber-700" />
+              <span>ڕاپۆرتی گشتگیر</span>
+            </button>
+          )}
+
           <button
             id="how-to-use-btn"
             onClick={() => setIsHowToUseOpen(true)}

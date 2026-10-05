@@ -1077,24 +1077,31 @@ export default function App() {
 
   if (!isLoggedIn) {
     return (
-      <LoginPage
-        buses={buses}
-        students={students}
-        school={school}
-        currentShift={shift}
-        onLogin={handleLogin}
-        onContinueAsGuest={() => {
-          handleLogin({
-            id: 'guest_driver',
-            name: 'کاک کاوە ئەحمەد',
-            role: 'driver',
-            emailOrPhone: '0750 445 8821',
-            busId: 'bus_104',
-            busNumber: 'Bus 104',
-            title: 'شۆفێری پاسی قوتابخانە (میوان)',
-          });
-        }}
-      />
+      <>
+        <LoginPage
+          buses={buses}
+          students={students}
+          school={school}
+          currentShift={shift}
+          onLogin={handleLogin}
+          onOpenReport={() => setIsReportModalOpen(true)}
+          onContinueAsGuest={() => {
+            handleLogin({
+              id: 'guest_driver',
+              name: 'کاک کاوە ئەحمەد',
+              role: 'driver',
+              emailOrPhone: '0750 445 8821',
+              busId: 'bus_104',
+              busNumber: 'Bus 104',
+              title: 'شۆفێری پاسی قوتابخانە (میوان)',
+            });
+          }}
+        />
+        <SystemReportModal
+          isOpen={isReportModalOpen}
+          onClose={() => setIsReportModalOpen(false)}
+        />
+      </>
     );
   }
 
